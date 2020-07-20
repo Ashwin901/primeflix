@@ -4,11 +4,14 @@ import 'package:topmovies/constants.dart';
 import 'package:topmovies/screens/tv_screen.dart';
 import 'package:topmovies/screens/search_screen.dart';
 import 'package:topmovies/components/image_slider.dart';
+import 'package:topmovies/components/data.dart';
 
 class MovieScreen extends StatefulWidget {
   final movieData;
   final topMovieData;
-  MovieScreen({this.movieData,this.topMovieData});
+  final theatreData;
+  final popularMoviesData;
+  MovieScreen({this.movieData,this.topMovieData,this.theatreData,this.popularMoviesData});
   @override
   _MovieScreenState createState() => _MovieScreenState();
 }
@@ -16,6 +19,14 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   int selectedIndex ;
   List<BottomNavigationBarItem> items;
+
+  void getTvData()async{
+    var topTvData = await MovieData().getData("https://imdb-api.com/en/API/Top250TVs/k_7z0y9h8b");
+    var popularTvData = await MovieData().getData("https://imdb-api.com/en/API/MostPopularTVs/k_7z0y9h8b");
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TvScreen();
+    }));
+  }
 
   @override
   void initState() {
@@ -72,16 +83,14 @@ class _MovieScreenState extends State<MovieScreen> {
           });
           }
            else if(index==2) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return TvScreen();
-            }));
+             getTvData();
           setState(() {
             selectedIndex=1;
           });
            }
         },
       ),
-      body: SingleChildScrollView(child: ImageSlider(movieData: widget.movieData,topMovieData: widget.topMovieData,)),
+      body: SingleChildScrollView(child: ImageSlider(movieData: widget.movieData,topMovieData: widget.topMovieData,theatreData: widget.theatreData,popularMoviesData: widget.popularMoviesData,)),
     );
   }
 }

@@ -6,7 +6,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 class ImageSlider extends StatefulWidget {
   final movieData;
   final topMovieData;
-  ImageSlider({this.movieData,this.topMovieData});
+  final theatreData;
+  final popularMoviesData;
+  ImageSlider(
+      {this.movieData,
+      this.topMovieData,
+      this.theatreData,
+      this.popularMoviesData});
   @override
   _ImageSliderState createState() => _ImageSliderState();
 }
@@ -14,90 +20,137 @@ class ImageSlider extends StatefulWidget {
 class _ImageSliderState extends State<ImageSlider> {
   var movieData;
   var topMovieData;
-
+  var theatreData;
+  var popularMoviesData;
   @override
   void initState() {
     // TODO: implement initState
     movieData = widget.movieData;
     topMovieData = widget.topMovieData;
+    theatreData = widget.theatreData;
+    popularMoviesData = widget.popularMoviesData;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 4.0, left: 15.0, bottom: 7.0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "coming soon",
-                style: style.copyWith(fontSize: 18.0),
-              ),
-              Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-              )
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 4.0, left: 15.0, bottom: 7.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  "coming soon",
+                  style: style.copyWith(fontSize: 18.0),
+                ),
+                Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                )
+              ],
+            ),
           ),
-        ),
-        Container(
-            child: CarouselSlider.builder(
-                itemCount: movieData["items"].length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(movieData["items"][index]["image"]),
-                          fit: BoxFit.fill
-                        )
+          Container(
+              child: CarouselSlider.builder(
+                  itemCount: movieData["items"].length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    movieData["items"][index]["image"]),
+                                fit: BoxFit.fill)),
+                        width: 2000,
+                        margin: EdgeInsets.symmetric(horizontal: 6.0),
+                        child: Container(),
                       ),
-                      width: 2000,
-                      margin: EdgeInsets.symmetric(horizontal: 6.0),
-                      child: Container(),
-                    ),
-                  );
-                },
-                options: CarouselOptions(
-                  enableInfiniteScroll: true,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 5),
-                  autoPlayAnimationDuration: Duration(milliseconds: 2000),
-                  pauseAutoPlayOnTouch: true,
-                ))),
-        Padding(
-          padding: EdgeInsets.only(top: 7.0, left: 15.0, bottom: 7.0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "top 250 movies",
-                style: style.copyWith(fontSize: 18.0),
-              ),
-              Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-              )
-            ],
+                    );
+                  },
+                  options: CarouselOptions(
+                    enableInfiniteScroll: true,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 5),
+                    autoPlayAnimationDuration: Duration(milliseconds: 2000),
+                    pauseAutoPlayOnTouch: true,
+                  ))),
+          DataTitle(
+            title: "top 250 movies",
           ),
-        ),
-      SizedBox(
-        height: 5.0,
+          SizedBox(
+            height: 5.0,
+          ),
+          DataListView(topMovieData: topMovieData),
+          DataTitle(
+            title: "in theatres",
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          DataListView(
+            topMovieData: theatreData,
+          ),
+          DataTitle(
+            title: "popular movies",
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          DataListView(topMovieData: popularMoviesData,)
+        ],
       ),
-        Container(
-          height: 200.0,
-          child: ListView.builder(itemCount: topMovieData["items"].length,
-    scrollDirection: Axis.horizontal,
-    itemBuilder: (context, index){
+    );
+  }
+}
+
+class DataTitle extends StatelessWidget {
+  final title;
+  DataTitle({this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 7.0, left: 15.0, bottom: 7.0),
+      child: Row(
+        children: <Widget>[
+          Text(
+            title,
+            style: style.copyWith(fontSize: 18.0),
+          ),
+          Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DataListView extends StatelessWidget {
+  final topMovieData;
+  DataListView({this.topMovieData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150.0,
+      child: ListView.builder(
+          itemCount: topMovieData["items"].length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.all(6.0),
-              height:20,
+              margin:
+                  EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0, bottom: 2.0),
+              height: 20,
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    Image.network(topMovieData["items"][index]["image"],
+                    Image.network(
+                      topMovieData["items"][index]["image"],
                       fit: BoxFit.fill,
                       height: 120,
                       width: 130,
@@ -107,8 +160,6 @@ class _ImageSliderState extends State<ImageSlider> {
               ),
             );
           }),
-        )
-      ],
     );
   }
 }

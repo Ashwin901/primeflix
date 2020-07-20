@@ -22,8 +22,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getData() async{
     var soonMovieData = await MovieData().getData("https://imdb-api.com/en/API/ComingSoon/k_7z0y9h8b");
     var topMoviesData = await movieData.getData("https://imdb-api.com/en/API/Top250Movies/k_7z0y9h8b");
+    var inTheatresData = await movieData.getData("https://imdb-api.com/en/API/InTheaters/k_7z0y9h8b");
+    var popularMoviesData = await movieData.getData("https://imdb-api.com/en/API/MostPopularMovies/k_7z0y9h8b");
     Navigator.push(context, MaterialPageRoute(
-      builder: (context)=>MovieScreen(movieData: soonMovieData,topMovieData: topMoviesData),
+      builder: (context)=>MovieScreen(movieData: soonMovieData,topMovieData: topMoviesData,theatreData: inTheatresData,popularMoviesData:popularMoviesData),
     ));
   }
 
