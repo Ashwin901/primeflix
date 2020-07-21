@@ -23,8 +23,9 @@ class _MovieScreenState extends State<MovieScreen> {
   void getTvData()async{
     var topTvData = await MovieData().getData("https://imdb-api.com/en/API/Top250TVs/k_7z0y9h8b");
     var popularTvData = await MovieData().getData("https://imdb-api.com/en/API/MostPopularTVs/k_7z0y9h8b");
+    print(popularTvData);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TvScreen();
+      return TvScreen(topTvData: topTvData,popularTvData: popularTvData);
     }));
   }
 
