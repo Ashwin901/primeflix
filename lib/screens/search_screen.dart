@@ -22,10 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void searchMovie(String title) async{
-    var searchData = await movieData.searchMovie(title);
+    var searchData = await MovieData().getData("https://imdb-api.com/en/API/SearchMovie/k_7z0y9h8b/$title");
     var id = searchData["results"][0]["id"];
-    var ratingsData = await movieData.ratings(id);
-    var castData = await movieData.fullCast(id);
+    var castData = await MovieData().getData("https://imdb-api.com/en/API/FullCast/k_7z0y9h8b/$id");
+    var ratingsData = await MovieData().getData("https://imdb-api.com/en/API/Ratings/k_7z0y9h8b/$id");
     Navigator.push(context, MaterialPageRoute(
       builder: (context)=>SearchResult(searchData: searchData, ratingsData: ratingsData, castData: castData,)
     ));
