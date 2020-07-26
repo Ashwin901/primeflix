@@ -19,14 +19,31 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
   }
 
-  void getData() async{
-    var soonMovieData = await MovieData().getData("https://imdb-api.com/en/API/ComingSoon/k_7z0y9h8b");
-    var topMoviesData = await movieData.getData("https://imdb-api.com/en/API/Top250Movies/k_7z0y9h8b");
-    var inTheatresData = await movieData.getData("https://imdb-api.com/en/API/InTheaters/k_7z0y9h8b");
-    var popularMoviesData = await movieData.getData("https://imdb-api.com/en/API/MostPopularMovies/k_7z0y9h8b");
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context)=>MovieScreen(movieData: soonMovieData,topMovieData: topMoviesData,theatreData: inTheatresData,popularMoviesData:popularMoviesData),
-    ));
+  void getData() async {
+    var soonMovieData = await MovieData()
+        .getData("https://imdb-api.com/en/API/ComingSoon/k_7z0y9h8b");
+    var topMoviesData = await movieData
+        .getData("https://imdb-api.com/en/API/Top250Movies/k_7z0y9h8b");
+    var inTheatresData = await movieData
+        .getData("https://imdb-api.com/en/API/InTheaters/k_7z0y9h8b");
+    var popularMoviesData = await movieData
+        .getData("https://imdb-api.com/en/API/MostPopularMovies/k_7z0y9h8b");
+    var topTvData = await MovieData()
+        .getData("https://imdb-api.com/en/API/Top250TVs/k_7z0y9h8b");
+    var popularTvData = await MovieData()
+        .getData("https://imdb-api.com/en/API/MostPopularTVs/k_7z0y9h8b");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieScreen(
+            movieData: soonMovieData,
+            topMovieData: topMoviesData,
+            theatreData: inTheatresData,
+            popularMoviesData: popularMoviesData,
+            topTvData: topTvData,
+            popularTvData: popularTvData,
+          ),
+        ));
   }
 
   @override
@@ -37,19 +54,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("primeflix",
-            style: TextStyle(
-             letterSpacing: 2.0,
+            Text(
+              "primeflix",
+              style: TextStyle(
+                  letterSpacing: 2.0, color: Colors.white, fontSize: 20.0),
+            ),
+            SizedBox(
+              height: 5.0,
+            ),
+            SpinKitCircle(
               color: Colors.white,
-              fontSize: 20.0
-            ),
-            ),
-          SizedBox(
-            height: 5.0,
-          ),
-          SpinKitCircle(
-            color: Colors.white,
-          )
+            )
           ],
         ),
       ),

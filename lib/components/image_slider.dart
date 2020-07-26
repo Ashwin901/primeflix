@@ -2,17 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:topmovies/constants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'complete_Data.dart';
 
 class ImageSlider extends StatefulWidget {
   final movieData;
   final topMovieData;
   final theatreData;
   final popularMoviesData;
+  final topTvData;
+  final popularTvData;
   ImageSlider(
       {this.movieData,
       this.topMovieData,
       this.theatreData,
-      this.popularMoviesData});
+      this.popularMoviesData,
+      this.topTvData,
+      this.popularTvData});
   @override
   _ImageSliderState createState() => _ImageSliderState();
 }
@@ -22,6 +27,8 @@ class _ImageSliderState extends State<ImageSlider> {
   var topMovieData;
   var theatreData;
   var popularMoviesData;
+  var topTvData;
+  var popularTvData;
   @override
   void initState() {
     // TODO: implement initState
@@ -29,6 +36,8 @@ class _ImageSliderState extends State<ImageSlider> {
     topMovieData = widget.topMovieData;
     theatreData = widget.theatreData;
     popularMoviesData = widget.popularMoviesData;
+    topTvData = widget.topTvData;
+    popularTvData = widget.popularTvData;
     super.initState();
   }
 
@@ -84,92 +93,21 @@ class _ImageSliderState extends State<ImageSlider> {
           popularMoviesData == null
               ? Container
               : CompleteData(title: "popular movies", data: popularMoviesData),
-          theatreData == null ? Container:
-          CompleteData(title: "in theatres", data: theatreData),
+          CompleteData(title: "top Tv", data : topTvData),
+          CompleteData(title: "popular Tv", data :popularTvData),
+          theatreData == null
+              ? Container
+              : CompleteData(title: "in theatres", data: theatreData),
         ],
       ),
     );
   }
 }
 
-class CompleteData extends StatefulWidget {
-  final data, title;
-  CompleteData({this.data, this.title});
-  @override
-  _CompleteDataState createState() => _CompleteDataState();
-}
 
-class _CompleteDataState extends State<CompleteData> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        DataTitle(
-          title: widget.title,
-        ),
-        SizedBox(
-          height: 5.0,
-        ),
-        DataListView(topMovieData: widget.data)
-      ],
-    );
-  }
-}
 
-class DataTitle extends StatelessWidget {
-  final title;
-  DataTitle({this.title});
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 7.0, left: 15.0, bottom: 7.0),
-      child: Row(
-        children: <Widget>[
-          Text(
-            title,
-            style: style.copyWith(fontSize: 18.0),
-          ),
-          Icon(
-            Icons.play_arrow,
-            color: Colors.white,
-          )
-        ],
-      ),
-    );
-  }
-}
 
-class DataListView extends StatelessWidget {
-  final topMovieData;
-  DataListView({this.topMovieData});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 150.0,
-      child: ListView.builder(
-          itemCount: topMovieData["items"].length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Container(
-              margin:
-                  EdgeInsets.only(left: 6.0, right: 6.0, top: 6.0, bottom: 2.0),
-              height: 20,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Image.network(
-                      topMovieData["items"][index]["image"],
-                      fit: BoxFit.fill,
-                      height: 120,
-                      width: 130,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-    );
-  }
-}
+
+
