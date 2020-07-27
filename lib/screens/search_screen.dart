@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:topmovies/constants.dart';
 import 'package:topmovies/components/data.dart';
 import 'package:topmovies/screens/movie_info_screen.dart';
+import 'package:topmovies/components/data.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -22,10 +23,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void searchMovie(String title) async{
-    var searchData = await MovieData().getData("https://imdb-api.com/en/API/SearchMovie/k_7z0y9h8b/$title");
+    var searchData = await movieData.getData("https://imdb-api.com/en/API/SearchMovie/k_7z0y9h8b/$title");
     var id = searchData["results"][0]["id"];
-    var castData = await MovieData().getData("https://imdb-api.com/en/API/FullCast/k_7z0y9h8b/$id");
-    var ratingsData = await MovieData().getData("https://imdb-api.com/en/API/Ratings/k_7z0y9h8b/$id");
+    var castData = await movieData.getData("https://imdb-api.com/en/API/FullCast/k_7z0y9h8b/$id");
+    var ratingsData = await movieData.getData("https://imdb-api.com/en/API/Ratings/k_7z0y9h8b/$id");
     Navigator.push(context, MaterialPageRoute(
       builder: (context)=>SearchResult(searchData: searchData, ratingsData: ratingsData, castData: castData,)
     ));
